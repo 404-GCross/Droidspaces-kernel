@@ -1,11 +1,28 @@
 # 📱 界面使用说明
+## [>_ ] On脚本
+❤️提供四个启动脚本,每个脚本都具有打开rootfs的KDE桌面能力，使用脚本前请确保ssh可以连通,在Termux执行命令`bash on`即可
+* **on_aaudio.sh** : 以`aaudio`加载音频,并通过127.0.0.1转发
+* **on_opensl.sh** : 以`opensles`加载音频,并通过127.0.0.1转发
+* **on_aaudio_socket.sh** : 以`aaudio`加载音频,并通过本地转发
+* **on_opensl_socket.sh** : 以`opensles`加载音频,并通过本地转发
+> **💡 注意**: 默认先使用aaudio(音质更好),如果你要使用`socket`版,由于前期打包Rootfs,你需要更改/etc/zsh/zshenv把`export PULSE_SERVER=tcp:127.0.0.1:4713`注释掉
+
+> **💡 注意**: 一定要点开脚本,将第二行的`arch`改成你的容器名字
+
+**⚠️ 重要提示**: 如果你设备启动桌面时，遇到类似dri3报错,swap报错可以用
+```bash
+/data/adb/ksud sepolicy patch "allow untrusted_app_27 droidspacesd { fd file dir fifo_file lnk_file sock_file unix_stream_socket unix_dgram_socket binder } { read write getattr open add_name remove_name search connectto call transfer use }"
+#以kernelsu为例
+```
+
 ## 📁 OKI 文件夹
 本文件夹内存放的均为支持 **Droidspaces** 的定制内核。
 > **⚠️ 重要提示**：请务必确保您的手机内核版本与本站提供的内核版本**完全一致**，以获得最佳兼容性。
 > 
- * **6.12 版本**：目前暂时缺失，技术方案正在攻克中。
- * **6.6.89 版本**：若遇到开机反复重启,或者启动重启的情况，请尝试使用“一加平板 2 Pro”版。
-   * **已通过测试设备**：一加平板 2 Pro、一加 13、一加 Ace 5 Pro、一加 13T。
+ * **6.12 版本**：(目前有不定时重启bug)
+   * **已通过测试设备**：一加 15。
+ * **6.6 版本**
+   * **已通过测试设备**：一加平板 2 Pro、一加 13、一加 Ace 6、一加 Ace 5 Pro、一加 13T、一加 Ace 5 至尊版(使用天玑专用)。
  * **6.1 版本**：
    * **已通过测试设备**：一加 Ace 3 Pro、一加 12、一加平板 Pro、真我GT 5Pro。
  * **5.15 版本**：
@@ -20,20 +37,16 @@
    * **已通过测试设备**：小米平板 6 Max、小米平板 6 Pro
  * **4.14 内核**
    * **已通过测试设备**：红米Note 10 Pro
-   
-## 📦 Rootfs 文件夹
-包含各发行版的 Rootfs 镜像。
- * **便捷启动**：所有镜像均已预配置，通过内置脚本 on 即可一键开启 KDE 桌面环境。
- * [点我跳转](https://cdn.goldzxcbug.top/移动-Droidspaces-OSS/Rootfs)
- 
+**⚠️ 重要提示**: 文件可能不全，找不到可以去[Gold_bug的alist](https://cdn.goldzxcbug.top/)
+
 ## 📖 具体使用教程
 如果您是初学者或需要详细步骤，请参考 **酷安 @Gold_bug** 的深度教程：
  * [👤 查看作者主页](https://www.coolapk.com/u/33484640)
- * [🔗 Droidspaces 详细教学](https://www.coolapk.com/feed/70899541?s=NGIxYjhiNTExZmVlZjYwZzY5ZGEzZDBjega1612b2)
- * [👀Droidspaces 项目](https://github.com/ravindu644/Droidspaces-OSS)
- * [🤓Github 教程(敬请期待)]()
+ * [🔗 Droidspaces 详细教学(有点过时)](https://www.coolapk.com/feed/70899541?s=NGIxYjhiNTExZmVlZjYwZzY5ZGEzZDBjega1612b2)
+ * [👀 Droidspaces 项目](https://github.com/ravindu644/Droidspaces-OSS)
+ * [🤓 Github 内核教程](https://github.com/Goldzxcbug/Droidspaces_Kernel_patch)
 ## 🤝 内核分享与贡献
-如果您自行编译了支持 Droidspaces 的内核，欢迎通过 **酷安私信** 或 **邮件** 投递分享，您的每一份贡献都将帮助到更多开发者！❤️❤️❤️
+如果您自行编译了支持 Droidspaces 的内核，欢迎通过 **酷安私信** 或 **邮件** 投递分享，您的每一份贡献都将帮助到更多用户！❤️❤️❤️
 
 **📧 投稿要求：**
  1. **明确分类**：请注明是 GKI 内核、OKI 内核或兼容版。
