@@ -1,11 +1,9 @@
 #!/usr/bin/env bash
 
 CONTAINER_NAME="Aech" #这个写你的容器名称
-USERNAME="Gold"
-PASSWORD="1234"
-DISPLAY_NUMBER=":1"
+USERNAME="Gold"        #容器用户名
+DISPLAY_NUMBER=":1"   
 DPI=315
-SSH_HOST="127.0.0.1"
 
 if ! su -c "id -u" 2>/dev/null | grep -q "^0$"; then
     echo "❌ 需要 root 权限才能运行此脚本，请确保设备已 root 并授予 Termux root 权限。"
@@ -13,7 +11,7 @@ if ! su -c "id -u" 2>/dev/null | grep -q "^0$"; then
 fi
 
 # 检测依赖 
-required_commands=("pulseaudio" "pacmd" "pactl" "termux-x11" "sshpass" "ssh" "grep" "awk" "sleep" "id")
+required_commands=("pulseaudio" "pacmd" "pactl" "termux-x11" "id")
 missing=()
 for cmd in "${required_commands[@]}"; do
     if ! command -v "$cmd" &>/dev/null; then
@@ -56,8 +54,9 @@ fi
 
 if su -c "/data/local/Droidspaces/bin/droidspaces --name=\"${CONTAINER_NAME}\" status" | grep -q "Running"; then
     echo "容器 ${CONTAINER_NAME} 正在运行，执行相关命令..."
-    sshpass -p "${PASSWORD}" ssh -o StrictHostKeyChecking=no "${USERNAME}@${SSH_HOST}" "export DISPLAY=${DISPLAY_NUMBER}; startplasma-x11" &
+    su -c "/data/local/Droidspaces/bin/droidspaces --name=${CONTAINER_NAME} --user=${USERNAME} run DISPLAY=${DISPLAY_NUMBER} startplasma-x11" &
     echo "✅ 桌面已经开启，快去看看吧"
+    su -c "am start -n com.termux.x11/.MainActivity"
 else
     echo "该容器没开机，请检查是否开机"
 fi
